@@ -121,7 +121,7 @@ impl Assembler {
                 } else {                        // A+1 / M+1
                     c_bits |= 0b110000;
                 }
-            } else if comp.contains("D+") {     // D+A / D+M
+            } else if comp.contains("D+") || comp.contains("+D") {     // D+A / D+M
                 c_bits = 0b000010;
             } else if comp == "D-1" {           // D-1
                 c_bits = 0b001110;
@@ -161,7 +161,8 @@ impl Assembler {
 }
 
 fn main() {
-    let filename = "Rect.asm";
+    let args: Vec<String> = std::env::args().collect();
+    let filename = args[1].clone();
     let mut asm = vec![];
     let mut assembler = Assembler::new();
     if let Ok(f) = File::open(filename) {
